@@ -1414,7 +1414,14 @@ export class ChatwootService {
               );
             } catch (error) {
               if (!messageSent && body.conversation?.id) {
-                this.onSendMessageError(instance, body.conversation?.id, error.toString());
+                const errorDetails = {
+                  message: error.message,
+                  name: error.name,
+                  stack: error.stack, 
+                  error: JSON.stringify(error)
+                };
+                const errorString = JSON.stringify(errorDetails);
+                this.onSendMessageError(instance, body.conversation?.id, errorString);
               }
               throw error;
             }
